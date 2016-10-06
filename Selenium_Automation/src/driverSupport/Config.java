@@ -3,9 +3,9 @@ package driverSupport;
 public class Config {
 
 	public static String browser = "firefox";
-	public static String atUrl = "http://localhost:8080/login.do";
-	public static String userName = "admin";
-	public static String password = "manager";
-	public static String screenshotFolder = "G://Testing//Selenium//Screenshots//";
-	public static String logFolder = "G://Testing//Selenium//Logs//";
+	public static String atUrl = "https://online.actitime.com/cts2/login.do";
+	public static String userName = "sriharikss";
+	public static String password = "sa5EquBA";
+	public static String screenshotFolder = "//Users//skunapuli1//Desktop//Folders//Personal//Selenium//Screenshots//";
+	public static String logFolder = "//Users//skunapuli1//Desktop//Folders//Personal//Selenium//Logs//";
 }

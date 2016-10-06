@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -85,14 +85,14 @@ public class BaseClass extends AbstractWebDriverEventListener {
 	@Override
 	public void onException(Throwable arg0, WebDriver arg1) {
 		logText.add("There is an exception in the script, please find the below error description \n"
-				+ arg0.getStackTrace());
+				+ arg0.getStackTrace()+"\n"+arg0.getMessage());
 	}
 
 	public static void takeSnapShot(String fileName) throws IOException {
 		TakesScreenshot scrShot = ((TakesScreenshot) driver);
 		File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
-		File destFile = new File(Config.screenshotFolder + fileName);
-		FileUtils.copyFile(srcFile, destFile);
+		File destFile = new File(Config.screenshotFolder+fileName);
+		FileUtils.copyFile(srcFile,destFile);
 	}
 
 	@AfterMethod

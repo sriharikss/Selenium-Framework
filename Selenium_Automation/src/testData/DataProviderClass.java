@@ -2,6 +2,8 @@ package testData;
 
 import org.testng.annotations.DataProvider;
 
+import driverSupport.Config;
+
 public class DataProviderClass {
 
 	@DataProvider(name = "createProject")
@@ -9,11 +11,11 @@ public class DataProviderClass {
 
 		return new Object[][] {
 
-				{ "admin", "manager", "Boston Chocolate", "Project1",
+				{ Config.userName, Config.password, "Boston Chocolate", "Project1",
 						"Description" },
-				{ "admin", "manager", "Media Agency", "Project11",
+				{ Config.userName, Config.password, "Media Agency", "Project11",
 						"Description1" },
-				{ "admin", "manager", "Our Company", "Project11",
+				{ Config.userName, Config.password, "Our Company", "Project11",
 						"Description1" } };
 	}
 

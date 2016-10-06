@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,19 +16,19 @@ public class CreateNewProjectPage{
 	private String pageHeader = "Create New Project";
 	private WebDriver webDriver;
 	
-	@FindBy(how = How.XPATH, using ="//select[@name='customerId']" ) 
+	@FindBy(how = How.XPATH, using ="//button[@id='ext-gen23' and contains(text(),'Customer')]" ) 
 	private WebElement _ddCustomer;
 	
-	@FindBy(how = How.XPATH, using = "//td/input[@name='name']") 
+	@FindBy(how = How.ID, using = "projectPopup_projectNameField") 
 	private WebElement _txtProjectName;
 	
-	@FindBy(how = How.XPATH, using = "//td/textarea[@name='description']") 
+	@FindBy(how = How.ID, using = "projectPopup_projectDescriptionField") 
 	private WebElement _txtDescription;
 	
-	@FindBy(how = How.XPATH, using = "//td/input[@name='createProjectSubmit']") 
+	@FindBy(how = How.ID, using = "projectPopup_commitBtn") 
 	private WebElement _btnCreateProject;
 	
-	@FindBy(how = How.XPATH, using ="//td[@class='pagetitle' and contains(text(), 'New Project')]" ) 
+	@FindBy(how = How.CSS, using ="#projectPopup_titlePlaceholder" ) 
 	private WebElement _lblpageHeader;
 
 	public CreateNewProjectPage(WebDriver driver){
@@ -38,15 +39,16 @@ public class CreateNewProjectPage{
 	}
 	
 	public void createProject(String customerName, String projectName, String description){
-		Select _obCustomer = new Select(_ddCustomer);
-		_obCustomer.selectByVisibleText(customerName);
+		_ddCustomer.click();
+		WebElement customer = webDriver.findElement(By.xpath("//a[text()='"+customerName.trim()+"']"));
+		customer.click();
 		_txtProjectName.sendKeys(projectName);
 		_txtDescription.sendKeys(description);
 		_btnCreateProject.click();
 	}
 	
 	public void waitForPageLoad() {
-		WebDriverExtensions.waitforElementByXpath(webDriver,
-				"//td[@class='pagetitle' and contains(text(), 'New Project')]");
+		WebDriverExtensions.waitforElementByCssSelector(webDriver,
+				"#projectPopup_titlePlaceholder");
 	}
 }

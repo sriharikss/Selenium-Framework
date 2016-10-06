@@ -17,7 +17,7 @@ public class ProjectAndCustomersPage{
 	@FindBy(how = How.XPATH, using = "//span[text()='Create Project']")
 	private WebElement _btnCreateProject;
 	
-	@FindBy(how = How.XPATH, using = "//td[@class='pagetitle' and contains(text(), 'Customer')]")
+	@FindBy(how = How.XPATH, using = "//td[@class='pagetitle']/span[contains(text(),'Customers')]")
 	private WebElement _lblpageHeader;
 	
 	public ProjectAndCustomersPage(WebDriver driver){
@@ -34,7 +34,7 @@ public class ProjectAndCustomersPage{
 	}
 	
 	public void waitForPageLoad(){
-		WebDriverExtensions.waitforElementByXpath(webDriver, "//td[@class='pagetitle' and contains(text(), 'Customer')]");
+		WebDriverExtensions.waitforElementByXpath(webDriver, "//td[@class='pagetitle']/span[contains(text(),'Customers')]");
 	}
 
 }
