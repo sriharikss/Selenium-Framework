@@ -8,4 +8,5 @@ public class Config {
 	public static String password = "sa5EquBA";
 	public static String screenshotFolder = "//Users//skunapuli1//Desktop//Folders//Personal//Selenium//Screenshots//";
 	public static String logFolder = "//Users//skunapuli1//Desktop//Folders//Personal//Selenium//Logs//";
+	public static String testDataSheet = "//Users//skunapuli1//Desktop//Folders//Personal//Selenium//TestData//TestData.xls";
 }

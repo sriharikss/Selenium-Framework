@@ -1,6 +1,8 @@
 package driverSupport;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,6 +24,10 @@ import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class BaseClass extends AbstractWebDriverEventListener {
 
@@ -117,6 +123,34 @@ public class BaseClass extends AbstractWebDriverEventListener {
 		}
 		pw.close();
 		fw.close();
+	}
+	
+	public static String[][] getExcelData(String fileName, String sheetName) {
+		String[][] arrayExcelData = null;
+
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(fileName);
+
+			Workbook wb = Workbook.getWorkbook(fis);
+			Sheet sh = wb.getSheet(sheetName);
+
+			int noOfCols = sh.getColumns();
+			int noOfRows = sh.getRows();
+
+			arrayExcelData = new String[noOfCols - 1][noOfRows - 1];
+
+			for (int i = 1; i < noOfRows; i++) {
+				for (int j = 1; j < noOfCols; j++) {
+					arrayExcelData[i][j] = sh.getCell(i, j).getContents();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+		}
+		return arrayExcelData;
 	}
 
 }

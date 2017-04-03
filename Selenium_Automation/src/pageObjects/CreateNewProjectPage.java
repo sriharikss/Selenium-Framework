@@ -38,13 +38,14 @@ public class CreateNewProjectPage{
 		AssertJUnit.assertEquals("This is not Create Project page", _lblpageHeader.getText().trim(), pageHeader);
 	}
 	
-	public void createProject(String customerName, String projectName, String description){
+	public IndexPage createProject(String customerName, String projectName, String description){
 		_ddCustomer.click();
 		WebElement customer = webDriver.findElement(By.xpath("//a[text()='"+customerName.trim()+"']"));
 		customer.click();
 		_txtProjectName.sendKeys(projectName);
 		_txtDescription.sendKeys(description);
 		_btnCreateProject.click();
+		return new IndexPage(webDriver);
 	}
 	
 	public void waitForPageLoad() {

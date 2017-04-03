@@ -4,6 +4,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import driverSupport.BaseClass;
+import driverSupport.Config;
 import driverSupport.TestReports;
 import pageObjects.CreateNewProjectPage;
 import pageObjects.IndexPage;
@@ -21,15 +22,14 @@ public class CreateNewProject extends BaseClass{
 	private CreateNewProjectPage _createNewProjectPage;
 
 	@Test(groups = {"firstTest"},dataProvider="createProject",dataProviderClass=DataProviderClass.class)
-	public void createNewProject(String userName, String password,
-			String customerName, String projectName, String description) {
+	public void createNewProject(String customerName, String projectName, String description) {
 
 		_loginPage = new LoginPage(driver);
-		_indexPage = _loginPage.loginWithValidCredentials(userName, password);
+		_indexPage = _loginPage.loginWithValidCredentials(Config.userName, Config.password);
 		_openTasksPage = _indexPage.navigateToTasksPage();
 		_projectAndCustomerPage = _openTasksPage.navigateToProjectAndCustomersPage();
 		_createNewProjectPage = _projectAndCustomerPage.navigateToCreateProject();
-		_createNewProjectPage.createProject(customerName, projectName, description);
+		_indexPage = _createNewProjectPage.createProject(customerName, projectName, description);
 		_loginPage = _indexPage.logout();
 	}	
 }
