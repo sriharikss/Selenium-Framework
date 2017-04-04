@@ -138,7 +138,7 @@ public class BaseClass extends AbstractWebDriverEventListener {
 			int noOfCols = sh.getColumns();
 			int noOfRows = sh.getRows();
 
-			arrayExcelData = new String[noOfCols - 1][noOfRows - 1];
+			arrayExcelData = new String[noOfRows - 1][noOfCols - 1];
 
 			for (int i = 1; i < noOfRows; i++) {
 				for (int j = 1; j < noOfCols; j++) {
