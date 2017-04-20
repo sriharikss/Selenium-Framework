@@ -15,7 +15,7 @@ public class TestReports implements ITestListener{
 	@Override
 	public void onTestStart(ITestResult result) {
 		// TODO Auto-generated method stub
-		System.out.println(result.getName()+" started at : "+df.format(dateobj));
+		System.out.println(result.getMethod().getMethodName()+" started at : "+df.format(dateobj));
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class LoginPage{
 	private String pageHeader = "Login";
 	private WebDriver webDriver;
 	
-	@FindBy(how = How.ID, using ="username" ) 
+	@FindBy(how = How.NAME, using ="username" ) 
 	private WebElement _txtUsername;
 	
 	@FindBy(how = How.NAME, using ="pwd" ) 

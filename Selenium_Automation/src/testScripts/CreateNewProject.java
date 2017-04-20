@@ -1,5 +1,6 @@
 package testScripts;
 
+import org.testng.Reporter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -25,8 +26,11 @@ public class CreateNewProject extends BaseClass{
 			String customerName, String projectName, String description) {
 
 		_loginPage = new LoginPage(driver);
+		Reporter.log("Login page is displayed \n",0);
 		_indexPage = _loginPage.loginWithValidCredentials(userName, password);
+		Reporter.log("Logged in using the credentials username:"+userName+" password:"+password+"\n", 1);
 		_openTasksPage = _indexPage.navigateToTasksPage();
+		Reporter.log("Navigated Tasks page\n",2);
 		_projectAndCustomerPage = _openTasksPage.navigateToProjectAndCustomersPage();
 		_createNewProjectPage = _projectAndCustomerPage.navigateToCreateProject();
 		_createNewProjectPage.createProject(customerName, projectName, description);

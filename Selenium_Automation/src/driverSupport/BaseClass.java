@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -30,8 +31,10 @@ public class BaseClass extends AbstractWebDriverEventListener {
 	static SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy HH_mm_ss");
 	static Date dateobj = new Date();
 	private static PrintWriter pw;
+	public static Logger log = Logger.getLogger("devpinoyLogger");
 
 	private WebDriver determineDriver() {
+		log.info("Browser is configured to: "+Config.browser);
 		if (Config.browser.equalsIgnoreCase("chrome")) {
 			System.setProperty("webdriver.chrome.driver",
 					"Drivers//chromedriver.exe");
@@ -50,40 +53,57 @@ public class BaseClass extends AbstractWebDriverEventListener {
 	public void setup() {
 		driver = new EventFiringWebDriver(determineDriver());
 		driver.register(new BaseClass());
+		log.debug("Launched"+Config.browser);
 		driver.navigate().to(Config.atUrl);
+		log.info("Launching the URL"+Config.atUrl);
 		driver.manage().window().maximize();
+		log.debug("Maximizing the browser window");
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		log.debug("Adding the implicit wait 30 seconds");
 	}
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
+		log.debug(
+				"Clicking on the button with text: " + element.getText() + "\n class:" + element.getAttribute("class")
+						+ "\n id" + element.getAttribute("id") + "\n name:" + element.getAttribute("name"));
 		logText.add("Clicking on the button : " + element.getText());
 	}
 
 	@Override
 	public void beforeNavigateTo(String url, WebDriver driver) {
+		log.debug("Navigating to the url : " + url);
 		logText.add("Navigating to the url : " + url);
 	}
 
 	@Override
 	public void afterNavigateTo(String url, WebDriver driver) {
-		logText.add("Landed to the page located at : " + driver.getTitle());
+		log.debug("Landed to the page located at : " + driver.getCurrentUrl());
+		logText.add("Landed to the page located at : " + driver.getCurrentUrl());
 	}
 
 	@Override
 	public void beforeChangeValueOf(WebElement element, WebDriver driver) {
-		logText.add("Change the value of the field : "
+		log.debug("Change the value of the element with text: " + element.getText() + "\n class:"
+				+ element.getAttribute("class") + "\n id" + element.getAttribute("id") + "\n name:"
 				+ element.getAttribute("name"));
+		logText.add("Change the value of the field : " + element.getAttribute("name"));
 	}
 
 	@Override
 	public void afterChangeValueOf(WebElement element, WebDriver driver) {
-		logText.add("Value of the field : " + element.getAttribute("name")
-				+ " is changed to : " + element.getAttribute("value"));
+		log.debug(
+				"Value of the element with text: " + element.getText() + "\n class:" + element.getAttribute("class")
+						+ "\n id" + element.getAttribute("id") + "\n name:" + element.getAttribute("name")+ " is changed to : "
+								+ element.getAttribute("value"));
+		logText.add("Value of the field : " + element.getAttribute("name") + " is changed to : "
+				+ element.getAttribute("value"));
 	}
 
 	@Override
 	public void onException(Throwable arg0, WebDriver arg1) {
+		log.debug("There is an exception in the script, please find the below error description \n"
+				+ arg0.getStackTrace()+" at URL"+arg1.getCurrentUrl());
 		logText.add("There is an exception in the script, please find the below error description \n"
 				+ arg0.getStackTrace());
 	}
@@ -91,14 +111,18 @@ public class BaseClass extends AbstractWebDriverEventListener {
 	public static void takeSnapShot(String fileName) throws IOException {
 		TakesScreenshot scrShot = ((TakesScreenshot) driver);
 		File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+		log.debug("Captured the screenshot");
 		File destFile = new File(Config.screenshotFolder + fileName);
 		FileUtils.copyFile(srcFile, destFile);
+		log.info("Screenshot placed at location:"+destFile);
 	}
 
 	@AfterMethod
 	public static void tearDown() {
 		driver.close();
+		log.info("Closing the driver");
 		driver.quit();
+		log.info("Quitting the driver");
 		try {
 			printAndSaveLogToTextFile();
 		} catch (Exception e) {
@@ -118,5 +142,4 @@ public class BaseClass extends AbstractWebDriverEventListener {
 		pw.close();
 		fw.close();
 	}
-
 }
